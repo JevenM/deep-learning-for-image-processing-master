@@ -16,9 +16,11 @@ from train_eval_utils import train_one_epoch, evaluate
 
 def main(args):
     device = torch.device(args.device if torch.cuda.is_available() else "cpu")
+    print(device)
 
     print(args)
-    print('Start Tensorboard with "tensorboard --logdir=runs", view at http://localhost:6006/')
+    print('Start Tensorboard with "tensorboard --logdir=runs --samples_per_plugin=images=50", '
+          'view at http://localhost:6006/')
     # 实例化SummaryWriter对象
     tb_writer = SummaryWriter(log_dir="runs/flower_experiment")
     if os.path.exists("./weights") is False:
@@ -151,12 +153,13 @@ if __name__ == '__main__':
 
     # 数据集所在根目录
     # http://download.tensorflow.org/example_images/flower_photos.tgz
-    img_root = "/home/wz/my_project/my_github/data_set/flower_data/flower_photos"
+    img_root = "E:/AILearn/PilibalaWz/deep-learning-for-image-processing-master/data_set/flower_data/flower_photos"
     parser.add_argument('--data-path', type=str, default=img_root)
 
     # resnet34 官方权重下载地址
     # https://download.pytorch.org/models/resnet34-333f7ec4.pth
-    parser.add_argument('--weights', type=str, default='resNet34.pth',
+    # default = 'resnet34-333f7ec4.pth'
+    parser.add_argument('--weights', type=str, default='',
                         help='initial weights path')
     parser.add_argument('--freeze-layers', type=bool, default=False)
     parser.add_argument('--device', default='cuda', help='device id (i.e. 0 or 0,1 or cpu)')

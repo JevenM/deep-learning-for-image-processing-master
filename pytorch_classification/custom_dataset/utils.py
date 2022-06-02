@@ -2,7 +2,8 @@ import os
 import json
 import pickle
 import random
-
+import matplotlib
+# matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
@@ -51,7 +52,7 @@ def read_split_data(root: str, val_rate: float = 0.2):
     print("{} images for training.".format(len(train_images_path)))
     print("{} images for validation.".format(len(val_images_path)))
 
-    plot_image = False
+    plot_image = True
     if plot_image:
         # 绘制每种类别个数柱状图
         plt.bar(range(len(flower_class)), every_class_num, align='center')
@@ -80,8 +81,10 @@ def plot_data_loader_image(data_loader):
     json_file = open(json_path, 'r')
     class_indices = json.load(json_file)
 
+    print(matplotlib.get_backend())
     for data in data_loader:
         images, labels = data
+        # plt.figure()
         for i in range(plot_num):
             # [C, H, W] -> [H, W, C]
             img = images[i].numpy().transpose(1, 2, 0)
@@ -94,6 +97,7 @@ def plot_data_loader_image(data_loader):
             plt.yticks([])  # 去掉y轴的刻度
             plt.imshow(img.astype('uint8'))
         plt.show()
+        break
 
 
 def write_pickle(list_info: list, file_name: str):

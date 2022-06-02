@@ -1,6 +1,23 @@
-torchvision==0.7.0
-tqdm==4.42.1
-matplotlib==3.2.1
-torch==1.6.0
-Pillow
-tensorboard
+#torchvision==0.7.0
+#tqdm==4.42.1
+#matplotlib==3.2.1
+#torch==1.6.0
+#Pillow
+#tensorboard
+
+#不要使用这个文件，因为好几个代码公用pytorch虚拟环境，不能乱限制版本
+#运行不成功了，报错
+#放弃230220106
+
+
+# 20220107网络好了，重装torch和cudnntoolkit
+# cuda版本>python -c "import torch; print(torch.version.cuda)"
+# 11.3
+# torch版本>python -c "import torch; print(torch.__version__)"
+# 1.10.1
+# python 3.6
+# 可以运行，但是卡在
+# Using 8 dataloader workers every process
+# not using pretrain-weights.
+# 0%|          | 0/184 [00:00<?, ?it/s]
+

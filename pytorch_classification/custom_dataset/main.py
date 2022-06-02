@@ -5,9 +5,11 @@ from torchvision import transforms
 
 from my_dataset import MyDataSet
 from utils import read_split_data, plot_data_loader_image
+# 20220319 新版的数据读取方法，之前E:\AILearn\PilibalaWz\deep-learning-for-image-processing-master\data_set下面的
+# split_data不用了，太麻烦
 
 # http://download.tensorflow.org/example_images/flower_photos.tgz
-root = "/home/wz/my_github/data_set/flower_data/flower_photos"  # 数据集所在根目录
+root = "E:/AILearn/PilibalaWz/deep-learning-for-image-processing-master/data_set/flower_data/flower_photos"  # 数据集所在根目录
 
 
 def main():
@@ -32,17 +34,19 @@ def main():
 
     batch_size = 8
     nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers
-    print('Using {} dataloader workers'.format(nw))
+    print('Using {} dataloader workers'.format(nw//2))
     train_loader = torch.utils.data.DataLoader(train_data_set,
                                                batch_size=batch_size,
                                                shuffle=True,
-                                               num_workers=nw,
+                                               num_workers=nw//2,  # windows设置为8会导致卡死
                                                collate_fn=train_data_set.collate_fn)
 
-    # plot_data_loader_image(train_loader)
+    plot_data_loader_image(train_loader)
 
-    for step, data in enumerate(train_loader):
-        images, labels = data
+    # for step, data in enumerate(train_loader):
+    #     images, labels = data
+    #     print(labels)
+
 
 
 if __name__ == '__main__':

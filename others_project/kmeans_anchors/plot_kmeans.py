@@ -20,9 +20,11 @@ def plot_clusters(data, cls, clusters, title=""):
 
 
 def distances(data, clusters):
-    xy1 = data[:, None]  # [N,1,2]
-    xy2 = clusters[None]  # [1,M,2]
+    xy1 = data[:, None]  # [300,1,2]
+    xy2 = clusters[None]  # [1,2,2]
+    # 最后一个维度相加
     d = np.sum(np.power(xy2 - xy1, 2), axis=-1)
+    # print(d.shape) (300,2)
     return d
 
 
@@ -30,7 +32,7 @@ def k_means(data, k, dist=np.mean):
     """
     k-means methods
     Args:
-        data: 需要聚类的data
+        data: 需要聚类的data (300,2)
         k: 簇数(聚成几类)
         dist: 更新簇坐标的方法
     """
@@ -39,6 +41,7 @@ def k_means(data, k, dist=np.mean):
 
     # init k clusters
     clusters = data[np.random.choice(data_number, k, replace=False)]
+    # clusters: (k,2)
     print(f"random cluster: \n {clusters}")
     # plot
     plot_clusters(data, None, clusters, "random clusters")
@@ -47,6 +50,7 @@ def k_means(data, k, dist=np.mean):
     while True:
         d = distances(data, clusters)
         current_nearest = np.argmin(d, axis=1)
+        # (300,) 0 or 1
 
         # plot
         plot_clusters(data, current_nearest, clusters, f"step {step}")
@@ -54,6 +58,7 @@ def k_means(data, k, dist=np.mean):
         if (last_nearest == current_nearest).all():
             break  # clusters won't change
         for cluster in range(k):
+            print(cluster)
             # update clusters
             clusters[cluster] = dist(data[current_nearest == cluster], axis=0)
         last_nearest = current_nearest
@@ -75,6 +80,8 @@ def main():
     plt.close()
 
     clusters = k_means(np.concatenate([x[:, None], y[:, None]], axis=-1), k=2)
+    # print(x.shape) (300,)
+    # print(x[:, None].shape) (300,1)
     print(f"k-means fluster: \n {clusters}")
 
 
